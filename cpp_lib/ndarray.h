@@ -21,16 +21,20 @@ public:
 
     int * getSizing() const {return m_sizing;};
 
-    NdArray<T>& transpose(); //TODO
+    NdArray<T>& transpose() const; //TODO
     void transposeInPlace(); //TODO
 
-    NdArray<T> argmax(); //TODO
-    NdArray<T> argmin(); //TODO
-    NdArray<T> std(); //TODO
+    NdArray<T> argmax(int axis); //TODO
+    NdArray<T> argmin(int axis); //TODO
+    NdArray<T> std(int axis); //TODO
 
-    NdArray<T> inverse(); //TODO
+    NdArray<T> inverse() const; //TODO
+    void inverseInPlace(); //TODO
 
-    NdArray<T> trace(); //TODO
+    ndArray<T> pow() const; //TODO
+    void powInPlace(); //TODO
+
+    T trace(); //TODO
 
              T& operator() (int x, ...);
     NdArray<T>& operator+ (NdArray<T>& n);
