@@ -23,6 +23,9 @@ public:
     ~Array<T>(); //TODO
 
     template <typename A> Array<A> astype<A>() const; //TODO
+
+
+
 private:
 
 
