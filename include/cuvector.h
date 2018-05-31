@@ -7,7 +7,8 @@
 #include <cuda.h>
 #include <iostream>
 #include <vector>
-
+#include <stdexcept>
+#include <cstdlib>
 
 template <typename T>
 class CuVector
@@ -29,27 +30,29 @@ public:
 
 
     // Modifier
-    T pop_back(void); //TODO
+    T pop_back(void);
+    T get(int i);
     T pop_front(void); //TODO
-    void push_back(T const element); //TODO
+    void push_back(T const element);
     void push_front(T const element); //TODO
+    void push(T * data,int size); //TODO
     void insert(int i, T const element); //TODO
     void erase(int i); //TODO
     void clear(void); //TODO
 
     // Capacity
-    int size(void); //TODO
-    static int max_size(void); //TODO
-    int capacity(void); //TODO
-    bool empty(void); //TODO
+    int size(void) const {return m_size;}
+    int capacity(void) const {return m_maxsize;}
+    bool empty(void) const {return m_size==0;}
+    bool full(void) const {return m_maxsize==m_size;}
 
     // Operator
-    T&          operator[] (int i); //TODO
+    T           operator[] (int i);
     CuVector<T> operator+  (CuVector<T> const& vect); //TODO
     void        operator=  (CuVector<T> const& vect); //TODO
 
 private:
-    int sizeChecking(int size);
+    static int sizeChecking(int size);
 
     int m_maxsize;
     int m_size;
