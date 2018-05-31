@@ -1,6 +1,6 @@
 #include "../../include/cuvector.h"
 #include "../../include/CUDA_CONSTANT.h"
-#include <iostream>
+
 
 
 template<typename T> __global__ void cuda_copy(T* dest, T* src)
@@ -9,6 +9,13 @@ template<typename T> __global__ void cuda_copy(T* dest, T* src)
     dest[index] = src[index];
 };
 
+template<typename T> __global__ void cuda_shift(T* data, int offset)
+{
+    int index = blockIdx.x * blockDim.x + threadIdx.x;
+    T temp = data[index];
+    cudaDeviceSynchronize();
+    data[index+offset] = temp;
+}
 
 template<typename T>
 CuVector<T>::CuVector(int size)
@@ -45,10 +52,45 @@ CuVector<T>::~CuVector()
 }
 
 
+template<typename T>
+T CuVector<T>::get(int i)
+{
+    if(i>=m_size) throw std::runtime_errror("Index doesn't exist");
+    T result;
+    cudaMemcpy(&result, m_data+i, sizeof(T), cudaMemcpyDeviceToHost);
+    return result;
+}
+
+
+template<typename T>
+T CuVector<T>::pop_back(void)
+{
+    if(this->empty()) throw std::runtime_error("CuVector empty !");
+    T result;
+    cudaMemcpy(&result, m_data+m_size-1, sizeof(T), cudaMemcpyDeviceToHost);
+    return result;
+}
+
+
+template<typename T>
+void CuVector<T>::push_back(const T element)
+{
+    if(this->full()) throw std::runtime_error("CuVector full !");
+    cudaMemcpy(m_data + m_size, &element, sizeof(T), cudaMemcpyHostToDevice);
+    m_size++;
+
+}
+
 
 template<typename T>
 int CuVector<T>::sizeChecking(int size)
 {
     while( size%(size/MAX_THREAD_BY_BLOCKS +1)!=0) size++;
     return size;
+}
+
+template <typename T>
+T CuVector<T>::operator[](int i)
+{
+    return this->get(i);
 }
