@@ -31,7 +31,7 @@ public:
     NdArray<T> inverse() const; //TODO
     void inverseInPlace(); //TODO
 
-    ndArray<T> pow() const; //TODO
+    NdArray<T> pow() const; //TODO
     void powInPlace(); //TODO
 
     T trace(); //TODO
