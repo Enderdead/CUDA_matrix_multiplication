@@ -58,5 +58,5 @@ private:
 
 
 
-#include "../src/matrix/cumatrix.tpp"
+#include "../src/matrix/cumatrix.cu"
 #endif //_CUDA_MATRIX_LIB_CUMATRIX_H_
