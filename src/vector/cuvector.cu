@@ -55,7 +55,7 @@ CuVector<T>::~CuVector()
 template<typename T>
 T CuVector<T>::get(int i)
 {
-    if(i>=m_size) throw std::runtime_errror("Index doesn't exist");
+    if(i>=m_size) throw std::runtime_error("Index doesn't exist");
     T result;
     cudaMemcpy(&result, m_data+i, sizeof(T), cudaMemcpyDeviceToHost);
     return result;
