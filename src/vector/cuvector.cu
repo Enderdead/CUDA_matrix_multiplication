@@ -9,12 +9,13 @@ template<typename T> __global__ void cuda_copy(T* dest, T* src)
     dest[index] = src[index];
 };
 
-template<typename T> __global__ void cuda_shift(T* data, int offset)
+template<typename T> __global__ void cuda_shift(T* data, int offset,int delta, int lower_limit, int upper_limit)
 {
-    int index = blockIdx.x * blockDim.x + threadIdx.x;
-    T temp = data[index];
-    cudaDeviceSynchronize();
-    data[index+offset] = temp;
+    int index = blockIdx.x * blockDim.x + threadIdx.x + offset;
+    int primary_offset =  delta*(index<=lower_limit || index>=upper_limit);
+    T temp = data[index+primary_offset];
+    __syncthreads();
+    data[index+delta] = temp;
 }
 
 template<typename T>
