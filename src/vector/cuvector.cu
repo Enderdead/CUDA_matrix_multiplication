@@ -41,9 +41,7 @@ CuVector<T>::CuVector(CuVector<T> const& copy)
     m_maxsize = sizeChecking(copy.m_maxsize);
     m_size = copy.m_size;
     cudaMalloc((void **) &m_data, sizeof(T)*m_maxsize);
-    dim3 blocksPerGrid((m_maxsize/MAX_THREAD_BY_BLOCKS)+1,0,0);
-    dim3 threadsPerBlocks(m_maxsize/(blocksPerGrid.x),0,0);
-    cuda_copy<T><<<blocksPerGrid,threadsPerBlocks>>>(m_data,copy.m_data);
+    cuda_copy<T><<<getBocksSize(m_maxsize),getThreadsSize(m_maxsize)>>>(m_data,copy.m_data);
 }
 
 template<typename T>
