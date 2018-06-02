@@ -126,7 +126,7 @@ void CuVector<T>::push_front(const T element)
 template<typename T>
 int CuVector<T>::sizeChecking(int size)
 {
-    while( size%(size/MAX_THREAD_BY_BLOCKS +1)!=0) size++;
+    while( size%((int) (std::ceil(  ((float) size) / ((float) MAX_THREAD_BY_BLOCKS) ) ))!=0 ) size++;
     return size;
 }
 
