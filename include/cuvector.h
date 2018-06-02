@@ -37,7 +37,7 @@ public:
     T get(int i);
     T pop_front(void);
     void push_back(T const element);
-    void push_front(T const element); //TODO
+    void push_front(T const element);
     void push(T * data,int size); //TODO
     void insert(int i, T const element); //TODO
     void erase(int i); //TODO

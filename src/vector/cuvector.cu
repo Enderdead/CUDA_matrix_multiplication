@@ -107,6 +107,22 @@ void CuVector<T>::push_back(const T element)
 
 }
 
+template<typename T>
+void CuVector<T>::push_front(const T element)
+{
+    if(this->full()) throw std::runtime_error("CuVector full !");
+    //TODO optimisé le nb de boucle
+    for(int i=0;i<getBocksSize(m_maxsize); i++)
+    {
+        if(i==getBocksSize(m_maxsize)-1) cuda_shift<<<1,getThreadsSize(m_maxsize)-1>>>(m_data, i*getThreadsSize(m_maxsize), 1, -1, this->capacity()+1);
+        else cuda_shift<<<1,getThreadsSize(m_maxsize)>>>(m_data, i*getThreadsSize(m_maxsize), 1, -1, this->capacity()+1);
+        cudaDeviceSynchronize();
+    }
+
+    cudaMemcpy(m_data, &element, sizeof(T), cudaMemcpyHostToDevice);
+
+    m_size++;
+}
 
 template<typename T>
 int CuVector<T>::sizeChecking(int size)
