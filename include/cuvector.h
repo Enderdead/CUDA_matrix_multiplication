@@ -35,7 +35,7 @@ public:
     // Modifier
     T pop_back(void);
     T get(int i);
-    T pop_front(void); //TODO
+    T pop_front(void);
     void push_back(T const element);
     void push_front(T const element); //TODO
     void push(T * data,int size); //TODO

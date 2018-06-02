@@ -82,6 +82,22 @@ T CuVector<T>::pop_back(void)
 }
 
 
+template <typename T>
+T CuVector<T>::pop_front(void)
+{
+    if(this->empty()) throw std::runtime_error("CuVector empty !");
+    T result;
+    cudaMemcpy(&result, m_data, sizeof(T), cudaMemcpyDeviceToHost);
+    for(int i=0;i<getBocksSize(m_maxsize); i++)
+    {
+        if(i==0) cuda_shift<<<1,getThreadsSize(m_maxsize)-1>>>(m_data, i*getThreadsSize(m_maxsize), -1, -1, this->capacity()+1);
+        else cuda_shift<<<1,getThreadsSize(m_maxsize)>>>(m_data, i*getThreadsSize(m_maxsize), -1, -1, this->capacity()+1);
+        cudaDeviceSynchronize();
+    }
+    m_size--;
+    return result;
+}
+
 template<typename T>
 void CuVector<T>::push_back(const T element)
 {
