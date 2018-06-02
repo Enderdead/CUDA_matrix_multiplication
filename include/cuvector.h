@@ -56,6 +56,9 @@ public:
 
 private:
     static int sizeChecking(int size);
+    static int getBocksSize(int size);
+    static int getThreadsSize(int size);
+
 
     int m_maxsize;
     int m_size;

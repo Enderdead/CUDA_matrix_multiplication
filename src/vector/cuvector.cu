@@ -99,6 +99,21 @@ int CuVector<T>::sizeChecking(int size)
     return size;
 }
 
+
+template <typename T>
+int CuVector<T>::getBocksSize(int size)
+{
+    return ((int) (std::ceil(  ((float) size) / ((float) MAX_THREAD_BY_BLOCKS) )));
+}
+
+template <typename T>
+int CuVector<T>::getThreadsSize(int size)
+{
+    // TODO may replace by (m_maxsize/MAX_THREAD_BY_BLOCKS)
+    return size/((int) (std::ceil( ((float) size) / ((float) MAX_THREAD_BY_BLOCKS) )));
+}
+
+
 template <typename T>
 T CuVector<T>::operator[](int i)
 {
