@@ -53,6 +53,16 @@ CuVector<T>::~CuVector()
 
 
 template<typename T>
+void CuVector<T>::show() const
+{
+    T * local = (T*) malloc(sizeof(T)*this->m_size);
+    cudaMemcpy(local, m_data, sizeof(T)*this->m_size, cudaMemcpyDeviceToHost);
+    for(int i=0;i<this->m_size;i++) std::cout<<local[i]<<" ";
+    std::cout<<std::endl;
+    free(local);
+}
+
+template<typename T>
 T CuVector<T>::get(int i)
 {
     if(i>=m_size) throw std::runtime_error("Index doesn't exist");

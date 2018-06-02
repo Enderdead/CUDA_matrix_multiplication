@@ -9,7 +9,7 @@
 #include <vector>
 #include <stdexcept>
 #include <cstdlib>
-
+#include <cmath>
 template <typename T>
 class CuVector
 {
@@ -22,6 +22,9 @@ public:
 
     // Destructor
     ~CuVector<T>();
+
+    //Display
+    void show(void) const;
 
     // Converting
     template <typename A> CuVector<A> asType() const; //TODO
